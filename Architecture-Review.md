@@ -1,5 +1,11 @@
 # Architectural Review Preparation and Framing Document
 
+## Background and Context
+* We are going to develop a real-time American Sign Language translation system using OpenCV and a machine learning model to understand raw ASL input and output letters and words as speech.
+
+* As the 6th most used language in the U.S. and a complex language with its own grammar and syntax, ASL is an interesting and challenging task for realtime translation and one that will allows us to develop a project with impact beyond just the scope of the Software Design class.
+
+
 ## Risk Identification and Mitigation
 * __Dataset__
   * _Challenge:_ We have still not found a really robust dataset of common ASL letters and words to train our program on and doing so is absolutely key to the project.
