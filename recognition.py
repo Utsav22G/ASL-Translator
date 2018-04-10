@@ -76,9 +76,9 @@ while camera.isOpened():
 
         # convert the image into binary image
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        blur = cv2.GaussianBlur(gray, (blurValue, blurValue), 0)
+        blur = cv2.GaussianBlur(gray, (blur_value, blur_value), 0)
         #cv2.imshow('blurred', blur) # show blur image
-        ret, thresh = cv2.threshold(blur, threshold, 255, cv2.THRESH_BINARY)
+        ret, thresh = cv2.threshold(blur, threshold, 255, cv2.THRESH_BINARY+cv2.THRESH_OTSU)
         #cv2.imshow('binary', thresh) # show binary image
 
 
