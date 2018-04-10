@@ -1,10 +1,17 @@
 from gtts import gTTS
+import vlc
 
-def tts(input):
-    speech = gTTS(text = input, lang = 'en', slow = False)
-    f = TemporaryFile()
-    speech.write_to_fp(f)
-    f.close()
+def say(speech, filename):
+    """Initializes gTTS and saves the input text as an mp3 file."""
+    tts = gTTS(text=speech, lang='en')
+    tts.save(filename)
 
-input = "Machine learn!"
-tts(input)
+def play(speech, filename):
+    """Plays the mp3 file containing the inout text."""
+    say(speech, filename)
+    p = vlc.MediaPlayer(filename)
+    p.play()
+    while True:
+        pass
+
+play("Hello!", "myfile.mp3")
