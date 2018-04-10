@@ -8,4 +8,5 @@ Based upon notes from the technical review, we've heavily prioritized the recogn
 ## Review Process Reflection
 _How did the review go? Did you get answers to your key questions? Did you provide too much/too little context for your audience? Did you stick closely to your planned agenda, or did you discover new things during the discussion that made you change your plans? What could you do next time to have an even more effective technical review?_
 
+The review went incredibly well with answers to most of our key questions and good response from our peers. While I think we could have provided more context on our code architecture and how we planned to accomplish the ASL real-time translation, the architecture review did happen pretty early on in our development process. We stuck pretty closely to our agenda, but did spend some time entertaining alternatives to our core proposal in the form of the ASL alphabet and semaphore translators. 
 
