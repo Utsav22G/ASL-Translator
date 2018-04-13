@@ -6,9 +6,8 @@ import math
 # parameters
 capture_region_x=0.5  # roi x start point
 capture_region_y=0.8  # roi y start point
-threshold = 70  #  threshold
+threshold = 70  #  threshold value
 blur_value = 5  # GaussianBlur parameter
-bgSubThreshold = 50
 
 # variables
 isBgCaptured = 0   # bool, whether the background captured
@@ -17,14 +16,6 @@ triggerSwitch = False  # In case you wanna use virtual keyboard
 
 def printThreshold(thr):
     print("! Threshold changed to: "+str(thr))
-
-
-def removeBG(videostream):
-    fgmask = bgModel.apply(videostream)
-    kernel = np.ones((3, 3), np.uint8)
-    fgmask = cv2.erode(fgmask, kernel, iterations=5)
-    result = cv2.bitwise_and(videostream, videostream, mask=fgmask)
-    return result
 
 
 def findFingers(result,drawing):  # -> finished bool, count: finger count
@@ -40,12 +31,12 @@ def findFingers(result,drawing):  # -> finished bool, count: finger count
                 start = tuple(result[s][0])
                 end = tuple(result[e][0])
                 far = tuple(result[f][0])
-                #a = math.sqrt((end[0] - start[0]) ** 2 + (end[1] - start[1]) ** 2)
-                #b = math.sqrt((far[0] - start[0]) ** 2 + (far[1] - start[1]) ** 2)
-                #c = math.sqrt((end[0] - far[0]) ** 2 + (end[1] - far[1]) ** 2)
-                #angle = math.acos((b ** 2 + c ** 2 - a ** 2) / (2 * b * c))  # cosine theorem
-                #if angle <= math.pi / 2:  # angle less than 90 degree, treat as fingers
-                #    count += 1
+                a = math.sqrt((end[0] - start[0]) ** 2 + (end[1] - start[1]) ** 2)
+                b = math.sqrt((far[0] - start[0]) ** 2 + (far[1] - start[1]) ** 2)
+                c = math.sqrt((end[0] - far[0]) ** 2 + (end[1] - far[1]) ** 2)
+                angle = math.acos((b ** 2 + c ** 2 - a ** 2) / (2 * b * c))  # cosine theorem
+                if angle <= math.pi / 2:  # angle less than 90 degree, treat as fingers
+                    count += 1
                 dist = cv2.pointPolygonTest(result,center,True)
                 cv2.line(img,start,end,[0,255,0],2)
                 cv2.circle(drawing, far, 8, [211, 84, 0], -1)
@@ -74,10 +65,10 @@ while camera.isOpened():
     #  Main operation
     if isBgCaptured == 1:  # Only runs once background is captured
         img = videostream
-        img = removeBG(videostream)
-        #img = img[0:int(capture_region_y * videostream.shape[0]),
-        #            int(capture_region_x * videostream.shape[1]):videostream.shape[1]]  # clip the ROI
-        #cv2.imshow('mask', img) #show mask image
+        bgModel.apply(img)
+        img = img[0:int(capture_region_y * videostream.shape[0]),
+                    int(capture_region_x * videostream.shape[1]):videostream.shape[1]]  # clip the ROI
+        cv2.imshow('mask', img) #show mask image
 
         # convert the image into binary image
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -126,7 +117,7 @@ while camera.isOpened():
     if k == 27:  # press ESC to exit
         break
     elif k == ord('b'):  # press 'b' to capture the background
-        bgModel = cv2.createBackgroundSubtractorMOG2(0, bgSubThreshold)
+        bgModel = cv2.createBackgroundSubtractorMOG2()
         isBgCaptured = 1
         print( 'Background Captured: Press 'r' to reset if detection not working')
     elif k == ord('r'):  # press 'r' to reset the background
