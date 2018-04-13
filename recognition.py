@@ -3,17 +3,16 @@ import numpy as np
 import copy
 import math
 
-# parameters
+''' Initial Parameters
 capture_region_x=0.5  # roi x start point
 capture_region_y=0.8  # roi y start point
-threshold = 70  #  threshold
+threshold = 70  #  Starting threshold value
 blur_value = 5  # GaussianBlur parameter
 bgSubThreshold = 50
 
-# variables
 isBgCaptured = 0   # bool, whether the background captured
 triggerSwitch = False  # In case you wanna use virtual keyboard
-
+'''
 
 def printThreshold(thr):
     print("! Threshold changed to: "+str(thr))
@@ -28,6 +27,7 @@ def removeBG(videostream):
 
 
 def findFingers(result,drawing):  # -> finished bool, count: finger count
+''' Uses OpenCV Convexity defects to find fingers in detected hand'''
     #  convexity defect
     result = cv2.approxPolyDP(result,0.01*cv2.arcLength(result,True),True)
     hull = cv2.convexHull(result, returnPoints=False)
@@ -52,7 +52,8 @@ def findFingers(result,drawing):  # -> finished bool, count: finger count
             return True, count
     return False, 0
 
-# Do camera operations
+''' Camera Operations '''
+# Setup and instantiation
 camera_input = int(input('Enter camera number: '))
 camera = cv2.VideoCapture(camera_input)
 camera.set(10,200)
@@ -71,7 +72,7 @@ while camera.isOpened():
                  (videostream.shape[1], int(capture_region_y * videostream.shape[0])), (255, 0, 0), 2)
     cv2.imshow('original', videostream)
 
-    #  Main operation
+    #  Remove Background
     if isBgCaptured == 1:  # Only runs once background is captured
         img = videostream
         img = removeBG(videostream)
@@ -79,7 +80,7 @@ while camera.isOpened():
         #            int(capture_region_x * videostream.shape[1]):videostream.shape[1]]  # clip the ROI
         #cv2.imshow('mask', img) #show mask image
 
-        # convert the image into binary image
+        # Convert image to grayscale and then binary
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         blur = cv2.GaussianBlur(gray, (blur_value, blur_value), 0)
         cv2.imshow('blurred', blur) # show blur image
@@ -101,6 +102,8 @@ while camera.isOpened():
                 ci = i
 
             result = contours[ci]
+
+            # Transformations on contours to find the center of the contour and draw it onscreen
             hull = cv2.convexHull(result)
             drawing = np.zeros(img.shape, np.uint8)
             moments = cv2.moments(result)
@@ -121,7 +124,7 @@ while camera.isOpened():
 
         cv2.imshow('Output', drawing)
 
-    # Keyboard OP
+    # Keyboard Operations to control program
     k = cv2.waitKey(10)
     if k == 27:  # press ESC to exit
         break
