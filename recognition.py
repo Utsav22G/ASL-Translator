@@ -8,6 +8,7 @@ capture_region_x=0.5  # roi x start point
 capture_region_y=0.8  # roi y start point
 threshold = 70  #  threshold value
 blur_value = 5  # GaussianBlur parameter
+background_threshold = 60
 
 # variables
 isBgCaptured = 0   # bool, whether the background captured
@@ -74,7 +75,17 @@ while camera.isOpened():
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         blur = cv2.GaussianBlur(gray, (blur_value, blur_value), 0)
         cv2.imshow('blurred', blur) # show blur image
-        ret, thresh = cv2.threshold(blur, threshold, 255, cv2.THRESH_BINARY_INV+cv2.THRESH_OTSU)
+
+        '''
+        Tries to adaptively change threshold based on lighting conditions
+        A background pixel in the center top of the image is sampled to determine
+        its intensity.
+        '''
+        img_width, img_height = np.shape(img)[:2]
+        background_level = gray[int(img_height/100)][int(img_width/2)]
+        threshold_level = background_threshold + background_level
+
+        ret, thresh = cv2.threshold(blur, threshold_level, 255, cv2.THRESH_BINARY_INV+cv2.THRESH_OTSU)
         cv2.imshow('binary', thresh) # show binary image
 
 
