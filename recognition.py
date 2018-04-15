@@ -3,7 +3,7 @@ import numpy as np
 import copy
 import math
 
-''' Initial Parameters
+''' Initial Parameters'''
 capture_region_x=0.5  # roi x start point
 capture_region_y=0.8  # roi y start point
 threshold = 70  #  Starting threshold value
@@ -12,15 +12,14 @@ background_threshold = 60
 
 isBgCaptured = 0   # bool, whether the background captured
 triggerSwitch = False  # In case you wanna use virtual keyboard
-'''
+
 
 def printThreshold(thr):
     print("! Threshold changed to: "+str(thr))
 
 
 def findFingers(result,drawing):  # -> finished bool, count: finger count
-''' Uses OpenCV Convexity defects to find fingers in detected hand'''
-    #  convexity defect
+#  convexity defect
     result = cv2.approxPolyDP(result,0.01*cv2.arcLength(result,True),True)
     hull = cv2.convexHull(result, returnPoints=False)
     if len(hull) > 3:
@@ -36,11 +35,11 @@ def findFingers(result,drawing):  # -> finished bool, count: finger count
                 b = math.sqrt((far[0] - start[0]) ** 2 + (far[1] - start[1]) ** 2)
                 c = math.sqrt((end[0] - far[0]) ** 2 + (end[1] - far[1]) ** 2)
                 angle = math.acos((b ** 2 + c ** 2 - a ** 2) / (2 * b * c))  # cosine theorem
-                if angle <= math.pi / 2:  # angle less than 90 degree, treat as fingers
-                    count += 1
+            if angle <= math.pi / 2:  # angle less than 90 degree, treat as fingers
+                count += 1
                 dist = cv2.pointPolygonTest(result,center,True)
-                cv2.line(img,start,end,[0,255,0],2)
-                cv2.circle(drawing, far, 8, [211, 84, 0], -1)
+            cv2.line(img,start,end,[0,255,0],2)
+            cv2.circle(drawing, far, 8, [211, 84, 0], -1)
             return True, count
     return False, 0
 
