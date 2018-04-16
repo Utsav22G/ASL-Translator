@@ -62,4 +62,4 @@ def save_as(path, file_ext, list_name, file_name):
         np.save(file_name+".npy", np.asarray(img_data), allow_pickle=True)
 
 if __name__ == '__main__':
-    save_as('TrainData','.jpg','imagelist', 'dataset')
+    save_as('TrainData/','.jpg','imagelist', 'dataset')
