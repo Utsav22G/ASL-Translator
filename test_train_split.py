@@ -35,4 +35,4 @@ if __name__ == '__main__':
         moves = sample(all_files, 10)
         for each in moves:
             move_file(current='Alphabetical/'+folder+'/'+each, destination='TestData/'+each)
-    print("Successfully created TestData")
+    print("Successfully created TestData!")
