@@ -3,11 +3,12 @@ import gTTS
 import numpy
 import pandas
 import sklearn
+import recognition
 
 
-class Recognition:
-    def __init__(self, frame):
-        pass
+class Recognition():
+    def __init__(self):
+        recognition.mainloop()
 
     def apply_transform(self, frame):
         """
