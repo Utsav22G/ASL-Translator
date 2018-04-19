@@ -1,0 +1,23 @@
+convnet.py
+
+ERROR 1:
+
+Error:
+Exception in thread Thread-1014:
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/threading.py", line 810, in __bootstrap_inner
+    self.run()
+  File "/usr/lib/python2.7/threading.py", line 763, in run
+    self.__target(*self.__args, **self.__kwargs)
+  File "/usr/lib/python2.7/multiprocessing/pool.py", line 108, in worker
+    debug('worker got sentinel -- exiting')
+TypeError: 'NoneType' object is not callable
+
+Encountered when:
+Running convnet.py results in the error after the neural net completes training. Crazy part is
+that it creates the first_try.h5 file which should've been AFTER the model trains, is tested
+and then saves data. The file is 8.5MB in size.
+
+Note:
+When the same file was ran on Utsav's laptop for 1 epoch it completed training but no first_try.h5
+file was created.
