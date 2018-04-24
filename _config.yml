@@ -22,18 +22,17 @@ baseurl:               ''
 lang:                  en
 
 # The title of your blog. Used in the sidebar and the browser tab.
-title:                 Hydejack
+title:                 Signum
 
 # A short description (~150 chars) of the page used for the meta description tag.
 # Can use markdown, but no more than one paragraph (enforced by `>`)
 description:           >
-  A Jekyll theme with JavaScript powers. "Best Theme by a Mile".
-  Combines the best of static sites and modern web apps.
+  Signum is an American Sign Language Translator using CV and ML
   Open `_config.yml` to edit this text.
 
 # A shorter description for the sidebar.
 tagline:               >
-  A Jekyll theme with JavaScript powers.
+  An ASL Translator using CV and ML
   Open `_config.yml` to edit this text.
 
 # A list of keywords for your blog
@@ -45,8 +44,8 @@ logo:                  /assets/icons/icon.png
 # This should be the same author as first entry in `_data/authors.yml`.
 # Duplication is necessary due to the `jekyll-feed`, `jekyll-seo-tag` plugin.
 author:
-  name:                <firstname> <lastname>
-  email:               <mail@domain.tld>
+  name:                <Isaac> <Vandor>
+  email:               <isaac.vandor@students.olin.edu>
   # Used by `jekyll-seo-tag`:
   # twitter:             <username>
 
