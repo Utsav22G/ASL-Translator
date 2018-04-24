@@ -3264,9 +3264,9 @@
 		}
 
 		.wrapper.style2 {
-			background-color: #FB4D42;
+			/* background-color: #FB4D42; */
 			/* background-color: #091F2F; */
-			/* background-color: #5052b5; */
+			background-color: #5052b5;
 		}
 
 		.wrapper.style2-alt {
@@ -3275,6 +3275,7 @@
 		}
 
 		.wrapper.style3 {
+			background-color: #FB4D42;
 			/* background-color: #091F2F; */
 			background-color: #b74e91;
 		}
