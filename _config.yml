@@ -28,12 +28,10 @@ title:                 Signum
 # Can use markdown, but no more than one paragraph (enforced by `>`)
 description:           >
   Signum is an American Sign Language Translator using CV and ML
-  Open `_config.yml` to edit this text.
 
 # A shorter description for the sidebar.
 tagline:               >
   An ASL Translator using CV and ML
-  Open `_config.yml` to edit this text.
 
 # A list of keywords for your blog
 keywords:              []
