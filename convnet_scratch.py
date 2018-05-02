@@ -3,6 +3,8 @@ from keras.models import Sequential
 from keras.layers import Conv2D, MaxPooling2D
 from keras.layers import Activation, Dropout, Flatten, Dense
 from keras import backend as K
+from cv2 import imread
+from numpy import expand_dims
 
 
 # dimensions of our images.
@@ -74,4 +76,11 @@ model.fit_generator(
     validation_data=validation_generator,
     validation_steps=nb_validation_samples // batch_size)
 
-model.save_weights('first_try.h5')
+model.save_weights('weights.h5')
+model.save('model.h5')
+
+# model.load_model('model.h5')
+
+img = imread('RawImages/Y_1.jpg') #try converting into a numpy array
+result = model.predict(expand_dims(img, axis=0))
+print(result)
