@@ -1,18 +1,11 @@
+from cv2 import imread
+from keras.models import load_model
 import numpy as np
-from keras.preprocessing import image
-from keras.models import Sequential
 
-classifier = Sequential()
+model = load_model('model.h5')
 
-
-test_image = image.load_img('RawImages/A_1.jpg', target_size = (64, 64))
-test_image = image.img_to_array(test_image)
-test_image = np.expand_dims(test_image, axis = 0)
-result = classifier.predict(test_image)
+img = imread('RawImages/Y_1.jpg') #try converting into a numpy array
+img = img.astype(np.float32)/255.0
+img = img[:,:,::-1]
+result = model.predict(np.expand_dims(img, axis=0))
 print(result)
-# training_set.class_indices
-#
-# if result[0][0] == 1:
-#     prediction = 'dog'
-# else:
-#     prediction = 'cat'

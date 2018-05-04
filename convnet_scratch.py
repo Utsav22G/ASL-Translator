@@ -1,13 +1,10 @@
 from keras.preprocessing.image import ImageDataGenerator
-from keras.models import Sequential, load_model
+from keras.models import Sequential
 from keras.layers import Conv2D, MaxPooling2D
 from keras.layers import Activation, Dropout, Flatten, Dense
 from keras import backend as K
-from cv2 import imread
-from numpy import expand_dims
 
-
-# dimensions of our images.
+# dimensions of images
 img_width, img_height = 200, 200
 
 train_data_dir = 'Data/TrainData'
@@ -16,6 +13,8 @@ nb_train_samples = 7260
 nb_validation_samples = 240
 epochs = 64
 batch_size = 16
+
+# change the number of layers --> 2 to 6
 
 if K.image_data_format() == 'channels_first':
     input_shape = (3, img_width, img_height)
@@ -39,8 +38,8 @@ model.add(Flatten())
 model.add(Dense(64))
 model.add(Activation('relu'))
 model.add(Dropout(0.5))
-model.add(Dense(24))     # change to 24
-model.add(Activation('sigmoid'))        # try softmax
+model.add(Dense(24))
+model.add(Activation('softmax'))
 
 model.compile(loss='binary_crossentropy',
               optimizer='rmsprop',
@@ -53,21 +52,19 @@ train_datagen = ImageDataGenerator(
     zoom_range=0.2,
     horizontal_flip=True)
 
-# this is the augmentation configuration we will use for testing:
-# only rescaling
 test_datagen = ImageDataGenerator(rescale=1. / 255)
 
 train_generator = train_datagen.flow_from_directory(
     train_data_dir,
     target_size=(img_width, img_height),
     batch_size=batch_size,
-    class_mode='categorical')    # change to categorical
+    class_mode='categorical')
 
 validation_generator = test_datagen.flow_from_directory(
     validation_data_dir,
     target_size=(img_width, img_height),
     batch_size=batch_size,
-    class_mode='categorical')       # change to categorical
+    class_mode='categorical')
 
 model.fit_generator(
     train_generator,
@@ -78,9 +75,3 @@ model.fit_generator(
 
 model.save_weights('weights.h5')
 model.save('model.h5')
-
-# model = load_model('model.h5')
-# 
-# img = imread('RawImages/Y_1.jpg') #try converting into a numpy array
-# result = model.predict(expand_dims(img, axis=0))
-# print(result)
