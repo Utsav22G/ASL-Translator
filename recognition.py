@@ -124,7 +124,6 @@ while camera.isOpened():
 
 
         cv2.imshow('Output', drawing)
-
     # Keyboard Operations to control program
     k = cv2.waitKey(10)
     if k == 27:  # press ESC to exit
@@ -141,3 +140,8 @@ while camera.isOpened():
     elif k == ord('n'):
         triggerSwitch = True
         print ('!!!Trigger On!!!')
+    elif k == ord('p'):
+        height, width = img.shape[:2]
+        res = cv2.resize(img,(200, 200), interpolation = cv2.INTER_CUBIC)
+        cv2.imwrite('Data/OutputData/output.jpg',drawing)
+        print("Image printed to file")
