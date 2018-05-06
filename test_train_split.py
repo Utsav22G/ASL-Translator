@@ -21,7 +21,7 @@ def move_file(current, destination, file_name, alphabet):
     move(src=current, dst=destination+alphabet+'/'+file_name)
 
 if __name__ == '__main__':
-    file_list = os.listdir("RawImages/")
+    file_list = os.listdir("Data/RawImages/")
     alphabets = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O',
                 'P','Q','R','S','T','U','V','W','X','Y','Z']
 
@@ -29,7 +29,7 @@ if __name__ == '__main__':
         """ Sorts files in an alphabetical order and places them in a folder for that alphabet"""
         for i in range(len(alphabets)):
             if filename[0] == alphabets[i]:
-                copy_files(source='RawImages/', destination='Data/TrainData/', file_name=filename, alphabet=alphabets[i])
+                copy_files(source='Data/RawImages/', destination='Data/TrainData/', file_name=filename, alphabet=alphabets[i])
     print("Successfully created TrainData!")
 
     folders = os.listdir('Data/TrainData/')
