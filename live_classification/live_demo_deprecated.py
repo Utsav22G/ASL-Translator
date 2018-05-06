@@ -46,6 +46,9 @@ label_dict = {pos: letter
 # ====================== Live loop ======================
 # =======================================================
 
+capture_region_x=0.5  # roi x start point
+capture_region_y=0.8  # roi y start point
+
 video_capture = cv2.VideoCapture(0)
 
 fps = 0
@@ -55,14 +58,18 @@ while True:
     # Capture frame-by-frame
     ret, frame = video_capture.read()
     fps += 1
+    frame = cv2.flip(frame, 1)  # flip the frame horizontally
+    cv2.rectangle(frame, (int(capture_region_x * frame.shape[1]), 0),
+                 (frame.shape[1], int(capture_region_y * frame.shape[0])), (255, 0, 0), 2)
 
+    '''
     # Draw rectangle around face
     x = 313
     y = 82
     w = 451
     h = 568
     cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 255, 0), 3)
-
+    '''
     # Crop + process captured frame
     hand = frame[83:650, 314:764]
     hand = square_pad(hand)
@@ -89,19 +96,19 @@ while True:
 
         # Annotate image with most probable prediction
         cv2.putText(frame, text=prediction_result,
-                    org=(width // 2 + 230, height // 2 + 75),
+                    org=(width // 2 + 50, height // 2 + 50),
                     fontFace=cv2.FONT_HERSHEY_SIMPLEX,
-                    fontScale=17, color=(255, 255, 0),
+                    fontScale=10, color=(255, 255, 0),
                     thickness=15, lineType=cv2.LINE_AA)
         # Annotate image with second most probable prediction (displayed on bottom left)
         cv2.putText(frame, text=pred_2,
-                    org=(width // 2 + width // 5 + 40, (360 + 240)),
+                    org=(width // 3 + 100, height // 1 + 5),
                     fontFace=cv2.FONT_HERSHEY_PLAIN,
-                    fontScale=6, color=(0, 0, 255),
+                    fontScale=6, color=(0, 255, 0),
                     thickness=6, lineType=cv2.LINE_AA)
         # Annotate image with third probable prediction (displayed on bottom right)
         cv2.putText(frame, text=pred_3,
-                    org=(width // 2 + width // 3 + 5, (360 + 240)),
+                    org=(width // 2 + 120, height // 1 + 5),
                     fontFace=cv2.FONT_HERSHEY_PLAIN,
                     fontScale=6, color=(0, 0, 255),
                     thickness=6, lineType=cv2.LINE_AA)
@@ -121,4 +128,3 @@ print("[INFO] approx. FPS: {:.2f}".format(FPS))
 # Release the capture
 video_capture.release()
 cv2.destroyAllWindows()
-
