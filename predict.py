@@ -38,13 +38,13 @@ def find_alphabet(letter_list, letter_dict):
     return decoded[0]
 
 if __name__ == "__main__":
-    
+
     model = load(trained_model='model.h5')
     result = predict(trained_model=model, test_image='Data/OutputData/scaledoutput.jpg')
 
     alphabets = {"A": 0, "B":1, "C": 2, "D":3, "E": 4, "F": 5,
-                "G": 6, "H": 7, "I": 8, "K": 9, "L": 10, "M": 11,
-                "N": 12, "O": 13, "P": 14, "Q": 15, "R": 16, "S": 17,
+                "G": 6, "H": 7, "I": 8, "J": 9, "K": 10, "L": 11,
+                "M": 12, "N": 13, "O": 14, "P": 15, "Q": 16, "S": 17,
                 "T": 18, "U": 19, "V": 20, "W": 21, "X": 22, "Y": 23}
 
     alphabet = find_alphabet(letter_list=result, letter_dict=alphabets)
