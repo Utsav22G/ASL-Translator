@@ -67,12 +67,11 @@ while True:
     my_predict = model.predict(hand,
                                   batch_size=500,
                                   verbose=0)
-
     # Predict letter
     top_prd = np.argmax(my_predict)
 
     # Only display predictions with probabilities greater than 0.5
-    if np.max(my_predict) >= 0.50:
+    if np.max(my_predict) >= 0.75:
 
         prediction_result = label_dict[top_prd]
         preds_list = np.argsort(my_predict)[0]
