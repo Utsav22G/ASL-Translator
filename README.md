@@ -6,14 +6,14 @@ Software Design Final Project (Spring 2018) code and documentation. ASL-Translat
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
 1. Clone this repo to your local machine
-2. 'python recognition.py' runs just the computer vision hand gesture detection
-3. 'python3 live_demo.py' will run the output of the CV gesture recognition comparing against a pre-trained model.
+2. `python recognition.py` runs just the computer vision hand gesture detection
+3. `python3 live_demo.py` will run the output of the CV gesture recognition comparing against a pre-trained model.
 
 ### Prerequisites
 
 What things you need to install the software and how to install them
 
-Run 'pip install -r requirements.txt' in order to download all the prerequisites necessary to run the program
+Run `pip install -r requirements.txt` in order to download all the prerequisites necessary to run the program
 
 
 ## Built With
