@@ -3,8 +3,8 @@
 
 """
 LIVE DEMO
-This script loads a pre-trained model and classifies American Sign Language
-finger spelling frame-by-frame in real-time
+This script loads a pre-trained CNN model and classifies American Sign Language
+finger spelling in real-time
 """
 
 import string
@@ -17,12 +17,13 @@ import numpy as np
 import copy
 import math
 
-''' Initial Parameters'''
-capture_region_x=0.5  # roi x start point
-capture_region_y=0.8  # roi y start point
-threshold = 70  #  Starting threshold value
+# ====== Set values for filtering and define finger finding ======
+# =======================================================
+capture_region_x=0.55  # roi x start point
+capture_region_y=0.9  # roi y start point
+threshold = 65  #  Starting threshold value
 blur_value = 9  # GaussianBlur parameter
-background_threshold = 60
+background_threshold = 0
 
 isBgCaptured = 0   # bool, whether the background captured
 triggerSwitch = False  # In case you wanna use virtual keyboard
@@ -45,12 +46,14 @@ def findFingers(result,drawing):  # -> finished bool, count: finger count
                 start = tuple(result[s][0])
                 end = tuple(result[e][0])
                 far = tuple(result[f][0])
+                '''
                 a = math.sqrt((end[0] - start[0]) ** 2 + (end[1] - start[1]) ** 2)
                 b = math.sqrt((far[0] - start[0]) ** 2 + (far[1] - start[1]) ** 2)
                 c = math.sqrt((end[0] - far[0]) ** 2 + (end[1] - far[1]) ** 2)
                 angle = math.acos((b ** 2 + c ** 2 - a ** 2) / (2 * b * c))  # cosine theorem
             if angle <= math.pi / 2:  # angle less than 90 degree, treat as fingers
                 count += 1
+                '''
                 dist = cv2.pointPolygonTest(result,center,True)
             #cv2.line(img,start,end,[0,255,0],2)
             #cv2.circle(drawing, far, 8, [211, 84, 0], -1)
@@ -59,7 +62,7 @@ def findFingers(result,drawing):  # -> finished bool, count: finger count
 
 # ====== Create model for real-time classification ======
 # =======================================================
-model = load_model('my_model.h5')
+model = load_model('model.h5')
 
 # Dictionary to convert numerical classes to alphabet
 label_dict = {pos: letter
@@ -70,11 +73,12 @@ label_dict = {pos: letter
 camera_input = int(input('Enter camera number: '))
 video_capture = cv2.VideoCapture(camera_input)
 video_capture.set(10,200)
+print("Press b to capture background & begin detection or r to reset")
 
 fps = 0
 start = time.time()
 
-while True:
+while video_capture.isOpened():
     # Capture frame-by-frame
     ret, frame = video_capture.read()
     fps += 1
@@ -104,7 +108,8 @@ while True:
         threshold_level = background_threshold + background_level
 
         ret, thresh = cv2.threshold(blur, threshold_level, 255, cv2.THRESH_BINARY_INV+cv2.THRESH_OTSU)
-        #cv2.imshow('binary', thresh) # show binary image
+        thresh = cv2.dilate(thresh, None, iterations=2)
+        cv2.imshow('binary', thresh) # show binary image
 
         # get the coutours
         new_threshold = copy.deepcopy(thresh)
@@ -133,12 +138,11 @@ while True:
             cv2.circle(img,center,5,[0,0,255],2)
             cv2.drawContours(drawing, [result], 0, (0, 255, 0), 2)
             cv2.drawContours(drawing, [hull], 0, (0, 0, 255), 3)
-            '''
+
             isFinish,count = findFingers(result,drawing)
             if triggerSwitch is True:
                 if isFinish is True and count <= 2:
                     print (count)
-            '''
 
         cv2.imshow('Output', drawing)
     # Crop + process captured frame
@@ -148,24 +152,19 @@ while True:
         hand = preprocess(drawing)
 
     # Make prediction
-    #my_predict = model.predict(np.expand_dims(img, axis=0))[0]
         my_predict = model.predict(hand, batch_size=None, verbose=0, steps=10)
-        #print(my_predict)
 
         # Predict letter
         top_prd = np.argmax(my_predict)
-        #print(top_prd)
 
         # Only display predictions with probabilities greater than 0.5
-        if np.max(my_predict) >= 0.50:
-
-            #print(alphabet)
+        if np.max(my_predict) >= 0.005:
 
             prediction_result = label_dict[top_prd]
-            preds_list = np.argsort(my_predict)[0]
+            preds_list = np.argsort(my_predict, axis=-1, kind='quicksort')[0]
             pred_2 = label_dict[preds_list[-2]]
             pred_3 = label_dict[preds_list[-3]]
-            print(preds_list)
+            #print(preds_list) #uncomment this line to see output
             width = int(video_capture.get(3) + 0.25)
             height = int(video_capture.get(4) + 0.25)
 
