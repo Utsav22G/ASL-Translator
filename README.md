@@ -6,8 +6,8 @@ Software Design Final Project (Spring 2018) code and documentation. ASL-Translat
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
 1. Clone this repo to your local machine
-2. 'recognition.py' runs just the computer vision hand gesture detection
-3. 
+2. 'python recognition.py' runs just the computer vision hand gesture detection
+3. 'python3 live_demo.py' will run the output of the CV gesture recognition comparing against a pre-trained model.
 
 ### Prerequisites
 
@@ -19,7 +19,7 @@ Run 'pip install -r requirements.txt' in order to download all the prerequisites
 ## Built With
 
 * [OpenCV](https://opencv.org/) - Computer Vision Library
-* [Tensorflow](https://www.tensorflow.org/) - Machine Learning Implementation
+* [Keras](https://keras.io) - Machine Learning Implementation
 * [HTML5Up!](https://html5up.net/) - Used to generate project website
 
 ## Contributing
@@ -30,8 +30,8 @@ Please read [CONTRIBUTING.md](Contributing.md) for details on our code of conduc
 ## Authors
 
 * **Isaac Vandor** - [Website](http://isaacvandor.com/)
-* **Utsav Gupta** - 
-* **Diego Berny**
+* **Utsav Gupta** - [Website](http://github.com/Utsav22G/)
+* **Diego Berny** - [Website](https://github.com/dberny)
 
 ## License
 
