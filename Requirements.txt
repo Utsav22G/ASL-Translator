@@ -1,6 +1,0 @@
-cv2
-gtts
-keras
-numpy
-PIL
-vlc

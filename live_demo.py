@@ -109,7 +109,7 @@ while video_capture.isOpened():
 
         ret, thresh = cv2.threshold(blur, threshold_level, 255, cv2.THRESH_BINARY_INV+cv2.THRESH_OTSU)
         thresh = cv2.dilate(thresh, None, iterations=2)
-        cv2.imshow('binary', thresh) # show binary image
+        #cv2.imshow('binary', thresh) # show binary image
 
         # get the coutours
         new_threshold = copy.deepcopy(thresh)
@@ -135,7 +135,7 @@ while video_capture.isOpened():
                         cy = int(moments['m01']/moments['m00']) # cy = M01/M00
 
             center = (cx, cy)
-            cv2.circle(img,center,5,[0,0,255],2)
+            #cv2.circle(img,center,5,[0,0,255],2)
             cv2.drawContours(drawing, [result], 0, (0, 255, 0), 2)
             cv2.drawContours(drawing, [hull], 0, (0, 0, 255), 3)
 
@@ -152,16 +152,17 @@ while video_capture.isOpened():
         hand = preprocess(drawing)
 
     # Make prediction
-        my_predict = model.predict(hand, batch_size=None, verbose=0, steps=10)
+        my_predict = model.predict(hand, batch_size=None, verbose=0, steps=1)
+        print(my_predict)
 
         # Predict letter
         top_prd = np.argmax(my_predict)
 
         # Only display predictions with probabilities greater than 0.5
-        if np.max(my_predict) >= 0.005:
+        if np.max(my_predict) >= 0.05:
 
             prediction_result = label_dict[top_prd]
-            preds_list = np.argsort(my_predict, axis=-1, kind='quicksort')[0]
+            preds_list = np.argsort(my_predict)[0]
             pred_2 = label_dict[preds_list[-2]]
             pred_3 = label_dict[preds_list[-3]]
             #print(preds_list) #uncomment this line to see output
@@ -200,6 +201,7 @@ while video_capture.isOpened():
         bgModel = cv2.createBackgroundSubtractorMOG2()
         isBgCaptured = 1
         print( 'Background Captured: Press 'r' to reset if detection not working')
+        print('Blue text is top prediction result while red and green are 2nd and 3rd results')
     elif k == ord('r'):  # press 'r' to reset the background
         bgModel = None
         triggerSwitch = False
