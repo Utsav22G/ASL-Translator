@@ -60,7 +60,7 @@ def findFingers(result,drawing):  # -> finished bool, count: finger count
 
 # ====== Create model for real-time classification ======
 # =======================================================
-model = load_model('models/my_model.h5')
+model = load_model('models/a_new_model.h5')
 
 # Dictionary to convert numerical classes to alphabet
 label_dict = {pos: letter
