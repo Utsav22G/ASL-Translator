@@ -47,5 +47,5 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 #### Acknowledgments
 
-Inspiration for this project comes from [ASL Gloves](http://www.olin.edu/news-events/2016/asl-gloves/).
-Thank you to the incredible researchers at Boston University for their work in developing an [ASL Dataset](https://www.bu.edu/asllrp/).
+* Inspiration for this project comes from [ASL Gloves](http://www.olin.edu/news-events/2016/asl-gloves/).
+* Thank you to the incredible researchers at Boston University for their work in developing an [ASL Dataset](https://www.bu.edu/asllrp/).
