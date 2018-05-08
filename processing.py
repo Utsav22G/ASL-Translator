@@ -5,10 +5,19 @@ import cv2
 from glob import glob
 import numpy as np
 
+"""
+PROCESSING
+This script contains useful functions for processing images used for ASL
+Classification
+Signum: Software Design SP18 Final Project
+Isaac Vandor, Utsav Gupta, Diego Berny
+"""
 
+'''
 def preprocess_frame(directory, img_format="jpg", size=200,
-                     drop_green=False, gray=False):
-    """Pre-processing for frames captured from video stored in single directory
+                     gray=False):
+    """Pre-processing for frames captured from video stored in single directory.
+       Useful for dataset creation
 
     Parameters
     ----------
@@ -19,8 +28,6 @@ def preprocess_frame(directory, img_format="jpg", size=200,
         default = 'jpg'
     size: int
         Size to which image is re-sized (square of shape: size x size)
-    drop_green: bool
-        Whether to drop the green channel, for images captured on green screen
     gray: bool
         Whether to convert image to gray scale
 
@@ -48,7 +55,7 @@ def preprocess_frame(directory, img_format="jpg", size=200,
         images[i, :, :, :] = img
 
     return images
-
+'''
 
 def square_pad(img, padding_color=[0, 0, 0]):
     """Add margins to image to make it square keeping largest original dimension
@@ -127,7 +134,7 @@ def preprocess(img, size=200, color=True):
     img = img[:,:,::-1]
     x = np.expand_dims(img, axis=0)
     return x
-
+'''
 def edit_bg(img, bg_img_path):
     """Change black background to another image pixel-by-pixel
 
@@ -154,3 +161,4 @@ def edit_bg(img, bg_img_path):
             if np.all(pixel == [0, 0, 0]):
                 img_front[j, i] = resize_back[j, i]
     return img_front
+'''

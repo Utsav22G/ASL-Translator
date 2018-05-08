@@ -2,6 +2,16 @@ from cv2 import imread
 from keras.models import load_model
 from PIL import Image
 import numpy as np
+from gtts import gTTS
+import vlc
+
+"""
+Predict
+This script loads a pre-trained CNN model and classifies American Sign Language
+finger spelling from a single image
+Signum: Software Design SP18 Final Project
+Isaac Vandor, Utsav Gupta, Diego Berny
+"""
 
 def load(trained_model):
     """ Loads a pre-trained model. """
@@ -37,9 +47,23 @@ def find_alphabet(letter_list, letter_dict):
     decoded = [key for key, value in letter_dict.items() if value == idx]
     return decoded[0]
 
+
+def say(speech, filename):
+    """Initializes gTTS and saves the input text as an mp3 file."""
+    tts = gTTS(text=speech, lang='en')
+    tts.save(filename)
+
+def play(speech, filename):
+    """Plays the mp3 file containing the inout text."""
+    say(speech, filename)
+    p = vlc.MediaPlayer(filename)
+    p.play()
+    while True:
+        pass
+
 if __name__ == "__main__":
 
-    model = load(trained_model='model.h5')
+    model = load(trained_model='models/model.h5')
     result = predict(trained_model=model, test_image='Data/OutputData/scaledoutput.jpg')
 
     alphabets = {"A": 0, "B":1, "C": 2, "D":3, "E": 4, "F": 5,
@@ -49,3 +73,4 @@ if __name__ == "__main__":
 
     alphabet = find_alphabet(letter_list=result, letter_dict=alphabets)
     print("The alphabet is: " + alphabet)
+    play(alphabet, "predictfile.mp3")
