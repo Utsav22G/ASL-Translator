@@ -13,6 +13,7 @@ These instructions will get you a copy of the project up and running on your loc
 3. `python3 live_demo.py` will run the output of the CV gesture recognition comparing against a pre-trained model.
 
 ### Prerequisites
+
 To get the keyboard up and running, please upgrade your Linux dependecies:
 ```
 sudo apt-get update
@@ -34,8 +35,7 @@ For a better understanding of who we are and how Signum works, see our [website]
 
 #### Contributing
 
-Please read [CONTRIBUTING.md](Contributing.md) for details on our code of conduct, and the process for submitting pull requests to us.
- 
+Please read [Contributing.md](Contributing.md) for details on our code of conduct, and the process for submitting pull requests to us.
 
 #### Authors
 [Isaac Vandor](http://isaacvandor.com/), [Utsav Gupta](http://github.com/Utsav22G/) and [Diego Berny](https://github.com/dberny)
