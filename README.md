@@ -24,7 +24,7 @@ Run `pip install -r requirements.txt` in order to download all the prerequisites
 
 ### Project Website
 
-For a better understanding of who we are and how Signum works, see our [website](https://utsav22g.github.io/ASL-Translator/).
+For a better understanding of who we are and how Signum works, see our [website](https://utsav22g.github.io/ASL-Translator/). To see the program in live-action, watch this [video](https://www.youtube.com/watch?v=yB_AGuRj0Zg).
 
 #### Built With
 
