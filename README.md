@@ -19,27 +19,27 @@ Run `pip install -r requirements.txt` in order to download all the prerequisites
 
 For a better understanding of who we are and how Signum works, see our [website](https://utsav22g.github.io/ASL-Translator/).
 
-## Built With
+#### Built With
 
 * [OpenCV](https://opencv.org/) - Computer Vision Library
 * [Keras](https://keras.io) - Machine Learning Implementation
 * [HTML5Up!](https://html5up.net/) - Used to generate project website
 
-## Contributing
+#### Contributing
 
 Please read [CONTRIBUTING.md](Contributing.md) for details on our code of conduct, and the process for submitting pull requests to us.
  
 
-## Authors
+#### Authors
 
 * **Isaac Vandor** - [Website](http://isaacvandor.com/)
 * **Utsav Gupta** - [Website](http://github.com/Utsav22G/)
 * **Diego Berny** - [Website](https://github.com/dberny)
 
-## License
+#### License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
-## Acknowledgments
+#### Acknowledgments
 
 * Inspiration for this project comes from [ASL Gloves](http://www.olin.edu/news-events/2016/asl-gloves/) 
