@@ -1,5 +1,5 @@
 # ASL-Translator
-Software Design Final Project (Spring 2018) code and documentation. ASL-Translator is a near real-time American Sign Language (ASL) translation tool that uses computer vision to recognize and track a user's gestures and uses a learned model to identify the ASL character most closely correlated to that gesture.
+Software Design Final Project (Spring 2018) code and documentation. ASL-Translator is a near real-time American Sign Language (ASL) translation tool that uses computer vision to recognize and track a user's gestures and uses a learned model to identify the ASL character most closely correlated to that gesture. For more information, see our [project website](https://utsav22g.github.io/ASL-Translator/).
 
 ## Getting Started
 
@@ -15,6 +15,9 @@ What things you need to install the software and how to install them
 
 Run `pip install -r requirements.txt` in order to download all the prerequisites necessary to run the program
 
+### Project Website
+
+For a better understanding of who we are and how Signum works, see our [website](https://utsav22g.github.io/ASL-Translator/).
 
 ## Built With
 
