@@ -42,4 +42,4 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 #### Acknowledgments
 
-* Inspiration for this project comes from [ASL Gloves](http://www.olin.edu/news-events/2016/asl-gloves/) 
+Inspiration for this project comes from [ASL Gloves](http://www.olin.edu/news-events/2016/asl-gloves/) 
