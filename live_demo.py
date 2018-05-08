@@ -1,12 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
-"""
-LIVE DEMO
-This script loads a pre-trained CNN model and classifies American Sign Language
-finger spelling in real-time
-"""
-
 import string
 import cv2
 from cv2 import imread
@@ -16,6 +9,14 @@ from processing import square_pad, preprocess
 import numpy as np
 import copy
 import math
+
+"""
+LIVE DEMO
+This script loads a pre-trained CNN model and classifies American Sign Language
+finger spelling in real-time based on filtered camera data
+Signum: Software Design SP18 Final Project
+Isaac Vandor, Utsav Gupta, Diego Berny
+"""
 
 # ====== Set values for filtering and define finger finding ======
 # =======================================================
@@ -28,16 +29,13 @@ background_threshold = 0
 isBgCaptured = 0   # bool, whether the background captured
 triggerSwitch = False  # In case you wanna use virtual keyboard
 
-def printThreshold(thr):
-    print("! Threshold changed to: "+str(thr))
-
-
+""" Calculates convexity defects (i.e. fingers) based image and some math"""
 def findFingers(result,drawing):  # -> finished bool, count: finger count
 #  convexity defect
     result = cv2.approxPolyDP(result,0.01*cv2.arcLength(result,True),True)
     hull = cv2.convexHull(result, returnPoints=False)
-    #if len(hull) > 3:
-    if(1):
+    if len(hull) > 2:
+    #if(1):
         defects = cv2.convexityDefects(result, hull)
         if type(defects) != type(None):
             count = 0
@@ -62,30 +60,33 @@ def findFingers(result,drawing):  # -> finished bool, count: finger count
 
 # ====== Create model for real-time classification ======
 # =======================================================
-model = load_model('model.h5')
+model = load_model('models/my_model.h5')
 
 # Dictionary to convert numerical classes to alphabet
 label_dict = {pos: letter
               for pos, letter in enumerate(string.ascii_uppercase)}
 
-# ====================== Live loop ======================
+# ====================== Video Capture Loop =============
 # =======================================================
-camera_input = int(input('Enter camera number: '))
-video_capture = cv2.VideoCapture(camera_input)
-video_capture.set(10,200)
+camera_input = int(input('Enter camera number: ')) #Allows you to set any camera you want
+video_capture = cv2.VideoCapture(camera_input) # start video capture
+video_capture.set(10,200) # set dimensions for video capture
 print("Press b to capture background & begin detection or r to reset")
 
+# Start capturing time for FPS analysis
 fps = 0
 start = time.time()
 
 while video_capture.isOpened():
     # Capture frame-by-frame
     ret, frame = video_capture.read()
-    fps += 1
+    fps += 1 # Count frames
     frame = cv2.flip(frame, 1)  # flip the frame horizontally
     cv2.rectangle(frame, (int(capture_region_x * frame.shape[1]), 0),
-                 (frame.shape[1], int(capture_region_y * frame.shape[0])), (255, 0, 0), 2)
+                 (frame.shape[1], int(capture_region_y * frame.shape[0])), (255, 0, 0), 2) #Create ROI
 
+# ====================== Video Filtering ================
+# =======================================================
     #  Remove Background
     if isBgCaptured == 1:  # Only runs once background is captured
         img = frame
@@ -98,6 +99,7 @@ while video_capture.isOpened():
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         blur = cv2.GaussianBlur(gray, (blur_value, blur_value), 0)
         #cv2.imshow('blurred', blur) # show blur image
+
         '''
         Tries to adaptively change threshold based on lighting conditions
         A background pixel in the center top of the image is sampled to determine
@@ -107,10 +109,13 @@ while video_capture.isOpened():
         background_level = gray[int(img_height/100)][int(img_width/2)]
         threshold_level = background_threshold + background_level
 
+        # thresholding using Otsu's threshold to get output images
         ret, thresh = cv2.threshold(blur, threshold_level, 255, cv2.THRESH_BINARY_INV+cv2.THRESH_OTSU)
         thresh = cv2.dilate(thresh, None, iterations=2)
         #cv2.imshow('binary', thresh) # show binary image
 
+# ====================== Hand Detection =================
+# =======================================================
         # get the coutours
         new_threshold = copy.deepcopy(thresh)
         _, contours, hierarchy = cv2.findContours(new_threshold, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
@@ -139,49 +144,57 @@ while video_capture.isOpened():
             cv2.drawContours(drawing, [result], 0, (0, 255, 0), 2)
             cv2.drawContours(drawing, [hull], 0, (0, 0, 255), 3)
 
+            # Call findFingers function to determine finger location
             isFinish,count = findFingers(result,drawing)
             if triggerSwitch is True:
                 if isFinish is True and count <= 2:
                     print (count)
 
         cv2.imshow('Output', drawing)
-    # Crop + process captured frame
-    #hand = frame[83:650, 314:764]
-    #hand = square_pad(drawing)
+
+        # Crop + process captured frame
+        #hand = frame[83:650, 314:764] #decided to use better frame detection above
+        #hand = square_pad(drawing) #no longer necessary
 
         hand = preprocess(drawing)
 
+# ============ Model Prediction/Analysis ================
+# =======================================================
     # Make prediction
         my_predict = model.predict(hand, batch_size=None, verbose=0, steps=1)
-        print(my_predict)
+        #print(my_predict) #uncomment for direct model output
 
-        # Predict letter
+        # Predict most likely letter
         top_prd = np.argmax(my_predict)
 
-        # Only display predictions with probabilities greater than 0.5
+        # Only display predictions with probabilities greater than 0.05
         if np.max(my_predict) >= 0.05:
 
-            prediction_result = label_dict[top_prd]
-            preds_list = np.argsort(my_predict)[0]
-            pred_2 = label_dict[preds_list[-2]]
-            pred_3 = label_dict[preds_list[-3]]
+            prediction_result = label_dict[top_prd] # convert predictions to alphabet
+            preds_list = np.argsort(my_predict)[0] # sort list of predictions
+            pred_2 = label_dict[preds_list[-2]] # display 2nd most likely result
+            pred_3 = label_dict[preds_list[-3]] # display 3rd most likely result
             #print(preds_list) #uncomment this line to see output
+            # set width and height of frame for text annotation
             width = int(video_capture.get(3) + 0.25)
             height = int(video_capture.get(4) + 0.25)
 
+# =========== Display Results ===========================
+# =======================================================
             # Annotate image with most probable prediction
             cv2.putText(frame, text=prediction_result,
                         org=(width // 2 + 50, height // 2 + 50),
                         fontFace=cv2.FONT_HERSHEY_SIMPLEX,
                         fontScale=10, color=(255, 255, 0),
                         thickness=15, lineType=cv2.LINE_AA)
-            # Annotate image with second most probable prediction (displayed on bottom left)
 
+            # Annotate image with second most probable prediction (displayed on bottom left)
             cv2.putText(frame, text=pred_2,
                         org=(width // 3 + 100, height // 1 + 5),
                         fontFace=cv2.FONT_HERSHEY_PLAIN,
                         fontScale=6, color=(0, 255, 0),
                         thickness=6, lineType=cv2.LINE_AA)
+
             # Annotate image with third probable prediction (displayed on bottom right)
             cv2.putText(frame, text=pred_3,
                         org=(width // 2 + 120, height // 1 + 5),
@@ -201,7 +214,7 @@ while video_capture.isOpened():
         bgModel = cv2.createBackgroundSubtractorMOG2()
         isBgCaptured = 1
         print( 'Background Captured: Press 'r' to reset if detection not working')
-        print('Blue text is top prediction result while red and green are 2nd and 3rd results')
+        print('Blue text is top prediction result; Red and Green are 2nd and 3rd results')
     elif k == ord('r'):  # press 'r' to reset the background
         bgModel = None
         triggerSwitch = False

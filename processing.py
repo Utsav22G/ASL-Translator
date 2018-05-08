@@ -5,6 +5,14 @@ import cv2
 from glob import glob
 import numpy as np
 
+"""
+PROCESSING
+This script contains useful functions for processing images used for ASL
+Classification
+Signum: Software Design SP18 Final Project
+Isaac Vandor, Utsav Gupta, Diego Berny
+"""
+
 '''
 def preprocess_frame(directory, img_format="jpg", size=200,
                      gray=False):

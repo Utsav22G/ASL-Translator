@@ -2,3 +2,6 @@ opencv-python==3.4.0.12
 Keras==2.1.6
 numpy==1.14.2
 Pillow==3.1.2
+gTTS==1.2.2
+gTTS-token==1.1.1
+python-vlc==3.0.102

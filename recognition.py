@@ -3,6 +3,14 @@ import numpy as np
 import copy
 import math
 
+"""
+RECOGNITION
+This script filters an OpenCV camera image using a variety of techniques to
+identify hand gestures
+Signum: Software Design SP18 Final Project
+Isaac Vandor, Utsav Gupta, Diego Berny
+"""
+
 ''' Initial Parameters'''
 capture_region_x=0.5  # roi x start point
 capture_region_y=0.8  # roi y start point
