@@ -2,7 +2,7 @@
 Software Design Final Project 4 (Spring 2018) code and documentation.
 
 ## Overview
-Signum is a near real-time American Sign Language (ASL) translation tool that uses computer vision to recognize and track a user's gestures and then uses a learned model to identify the ASL character most closely correlated to that gesture. For more information, see our [project website](https://utsav22g.github.io/ASL-Translator/).
+Signum is a near real-time American Sign Language (ASL) translation tool that uses computer vision to recognize and track a user's gestures and then uses a learned model to identify the ASL character most closely correlated to that gesture. For more information, see our [project website](https://utsav22g.github.io/ASL-Translator/) or look at our [project poster](https://github.com/Utsav22G/ASL-Translator/blob/master/Project%20Documentation/Signum_Final_Poster.pdf).
 
 ## Getting Started
 
