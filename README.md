@@ -22,9 +22,9 @@ sudo apt-get upgrade
 
 Run `pip install -r requirements.txt` in order to download all the prerequisites necessary to run the program
 
-### Project Website
+### Project Documentation
 
-For a better understanding of who we are and how Signum works, see our [website](https://utsav22g.github.io/ASL-Translator/). To see the program in live-action, watch this [video](https://www.youtube.com/watch?v=yB_AGuRj0Zg).
+For a better understanding of who we are and how Signum works, see our [website](https://utsav22g.github.io/ASL-Translator/). To see the program in live-action, watch this [video](https://www.youtube.com/watch?v=yB_AGuRj0Zg). For a more visual representation of the components of Signum, see our [project poster](https://github.com/Utsav22G/ASL-Translator/blob/master/Project%20Documentation/Signum_Final_Poster.pdf).
 
 #### Built With
 
