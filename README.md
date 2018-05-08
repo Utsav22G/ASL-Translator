@@ -8,7 +8,7 @@ Signum is a near real-time American Sign Language (ASL) translation tool that us
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
-1. Clone this repo to your local machine
+1. Clone this repo to your local machine: git clone https://github.com/Utsav22G/ASL-Translator.git `path/to/your/directory`
 2. `python recognition.py` runs just the computer vision hand gesture detection
 3. `python3 live_demo.py` will run the output of the CV gesture recognition comparing against a pre-trained model.
 
