@@ -3254,7 +3254,8 @@
 		}
 
 		.wrapper.style1 {
-			background-color:  #288BE4;
+			background-color: #091F2F;
+			/* background-color:  #288BE4;
 			/* background-color: #5e42a6; */
 		}
 
@@ -3284,6 +3285,11 @@
 			background-color: #FB4D42;
 			/* background-color: #091F2F; */
 			/* background-color: #953d75; */
+		}
+		.wrapper.style4 {
+			background-color: #FB4D42;
+			/* background-color: #091F2F; */
+			/*background-color: #b74e91; */
 		}
 
 		.wrapper.fullscreen {
